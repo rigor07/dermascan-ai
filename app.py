@@ -1,6 +1,6 @@
 import streamlit as st
 from PIL import Image
-import google.generativeai as genai
+from google import genai
 from transformers import pipeline
 
 # --- PAGE CONFIGURATION ---
@@ -61,8 +61,7 @@ if uploaded_file and api_key:
             st.write(f"**Confidence Score:** {confidence:.2%}")
 
             # B. THE COMMUNICATOR (Gemini)
-            genai.configure(api_key=api_key)
-            model = genai.GenerativeModel('gemini-2.5-pro')
+            client = genai.Client(api_key=api_key)
 
             prompt = f"""
             You are a specialized dermatologist assistant. 
@@ -79,7 +78,10 @@ if uploaded_file and api_key:
             
             with st.chat_message("assistant"):
                 response_placeholder = st.empty()
-                response = model.generate_content(prompt)
+                response = client.models.generate_content(
+                    model="gemini-2.5-pro",
+                    contents=prompt,
+                )
                 response_placeholder.write(response.text)
 
 elif not api_key:
