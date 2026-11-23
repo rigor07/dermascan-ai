@@ -42,7 +42,7 @@ uploaded_file = st.file_uploader("Upload a clear photo of the lesion", type=["jp
 if uploaded_file and api_key:
     # Display the image
     image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Scan", use_column_width=True)
+    st.image(image, caption="Uploaded Scan", use_container_width=True)
 
     if st.button("Analyze Lesion"):
         with st.spinner("Analyzing cell patterns..."):
